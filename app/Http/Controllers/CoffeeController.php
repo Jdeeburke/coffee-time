@@ -85,7 +85,7 @@ class CoffeeController extends BaseController
                 $text = "There was a problem adding that notification...";
             }
 
-            return $response()->json(['text' => $text]);
+            return response()->json(['text' => $text]);
         }
     }
 }
