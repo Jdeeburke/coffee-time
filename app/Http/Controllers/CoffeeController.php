@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Coffee;
+use App\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -27,11 +28,13 @@ class CoffeeController extends BaseController
     public function notify()
     {
     	$slack_url = "https://hooks.slack.com/services/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";
-        
-        $payload = '{"text": "Coffee is brewed and ready!", "icon_emoji": ":coffee:", "username": "coffeebot"}';
-        $this->sendSlackNotification($slack_url, $payload);
 
-        $payload = '{"text": "Coffee is brewed and ready!", "icon_emoji": ":coffee:", "username": "coffeebot"}';
+        $notification = Notification::inRandomOrder()->first();
+
+        $message = $notification->message;
+        $user = $notification->user;
+        
+        $payload = '{"text": "' . $message . '", "icon_emoji": ":coffee:", "username": "coffeebot"}';
         $this->sendSlackNotification($slack_url, $payload);
     }
 
@@ -49,19 +52,40 @@ class CoffeeController extends BaseController
         return curl_exec($ch);
     }
 
-    public function slackLatest()
+    public function slackLatest(Request $request)
     {
-        if ($coffee = Coffee::orderBy('created_at', 'desc')->first()) {
-            $text = "The last pot was made " . Carbon::now()->diffForHumans($coffee->created_at, true) . " ago";
-        } else {
-            $text = "Hmm... I'm having trouble looking that up.";
-        }
+        $token = $request->input('token');
 
-        return response()->json(['text' => $text]);
+        if ($token == "RoQl5NlfRd9l3v03a9bZ2yfO") {
+
+            if ($coffee = Coffee::orderBy('created_at', 'desc')->first()) {
+                $text = "The last pot was made " . Carbon::now()->diffForHumans($coffee->created_at, true) . " ago";
+            } else {
+                $text = "Hmm... I'm having trouble looking that up.";
+            }
+
+            return response()->json(['text' => $text]);
+
+        }
     }
 
-    public function slackAddNotification()
+    public function slackAddNotification(Request $request)
     {
+        $token = $request->input('token');
 
+        if ($token == "") {
+            $message = $request->input('text');
+            $user = $request->input('user_name');
+
+            $response = "";
+
+            if (Notification::create(['user' => $user, 'message' => $message])) {
+                $response = "Notification Added!";
+            } else {
+                $response = "There was a problem adding that notification...";
+            }
+
+            return $response()->json(['text' => $response]);
+        }
     }
 }
