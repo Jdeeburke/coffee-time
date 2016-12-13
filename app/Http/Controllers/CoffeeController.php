@@ -77,6 +77,8 @@ class CoffeeController extends BaseController
             $message = $request->input('text');
             $user = $request->input('user_name');
 
+            $message = ltrim(substr($message, strlen("!addmessage")));
+
             $text = "";
 
             if (Notification::create(['user' => $user, 'message' => $message])) {
