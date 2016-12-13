@@ -15,6 +15,13 @@ $app->get('/', function () use ($app) {
     return view('index');
 });
 
+$app->get('/subscribe', function() use($app) {
+	return view('subscribe');
+});
+
 $app->get('/new', 'CoffeeController@startBrew');
 $app->get('/latest', 'CoffeeController@getLatestBrew');
 $app->get('/notify', 'CoffeeController@notify');
+$app->post('/subscribe', 'SubscriptionController@subscribe');
+$app->post('/slack/latest', 'CoffeeController@slackLatest');
+$app->post('/slack/notification', 'CoffeeController@slackAddNotification');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Coffee;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -26,9 +27,17 @@ class CoffeeController extends BaseController
     public function notify()
     {
     	$slack_url = "https://hooks.slack.com/services/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";
+        
         $payload = '{"text": "Coffee is brewed and ready!", "icon_emoji": ":coffee:", "username": "coffeebot"}';
+        $this->sendSlackNotification($slack_url, $payload);
 
-        $ch = curl_init($slack_url);                                                                      
+        $payload = '{"text": "Coffee is brewed and ready!", "icon_emoji": ":coffee:", "username": "coffeebot"}';
+        $this->sendSlackNotification($slack_url, $payload);
+    }
+
+    public function sendSlackNotification($slack_url, $payload)
+    {
+        $ch = curl_init($slack_url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -37,6 +46,22 @@ class CoffeeController extends BaseController
             'Content-Length: ' . strlen($payload))
         );
 
-        $result = curl_exec($ch);
+        return curl_exec($ch);
+    }
+
+    public function slackLatest()
+    {
+        if ($coffee = Coffee::orderBy('created_at', 'desc')->first()) {
+            $text = "The last pot was made " . Carbon::now()->diffForHumans($coffee->created_at, true) . " ago";
+        } else {
+            $text = "Hmm... I'm having trouble looking that up.";
+        }
+
+        return response()->json(['text' => $text]);
+    }
+
+    public function slackAddNotification()
+    {
+
     }
 }
