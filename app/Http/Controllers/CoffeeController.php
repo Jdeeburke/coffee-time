@@ -73,7 +73,7 @@ class CoffeeController extends BaseController
     {
         $token = $request->input('token');
 
-        if ($token == "") {
+        if ($token == "m9UYMtG7FJNFRK5eDtl5yrwU") {
             $message = $request->input('text');
             $user = $request->input('user_name');
 
