@@ -1,0 +1,89 @@
+* {
+	font-family: 'Press Start 2P', sans-serif;
+	color: #fff;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+.content-container {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background: #6F4E37;
+	line-height:1.4;
+}
+
+.content {
+	display: inline-block;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	font-size: 20px;
+	text-transform: uppercase;
+	width: 100%;
+	text-align: center;
+}
+
+.content-bottom {
+	display: none;
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	height: auto;
+	text-align: center;
+	font-size: 16px;
+	color: #3a291d;
+}
+
+	.content-bottom .last-brewed {
+		display: block;
+		color: #3a291d;
+		text-transform: uppercase;
+	}
+
+	.content-bottom .time-since {
+		display: block;
+		color: #3a291d;
+	}
+
+.button {
+	text-decoration: none;
+	text-align: center;
+	display: inline-block;
+	padding: 20px;
+	top: 0;
+	left: 0;
+	position: relative;
+	background: #14B209;
+
+    box-shadow: -1px 1px #144E09,-2px 2px #144E09,-3px 3px #144E09,-4px 4px #144E09,-5px 5px #144E09,-6px 6px #144E09,-7px 7px #144E09,-7px 14px 6px rgba(0,0,0,0.3),inset 0 0px 17px rgba(38,200,255,0.12);
+}
+
+	.button:active {
+		top: 2px;
+		left: -2px;
+		box-shadow: -1px 1px #144E09,-2px 2px #144E09,-2px 4px 6px rgba(0,0,0,0.3),inset 0 0px 27px rgba(89,213,255,0.12);
+	}
+
+.brewing {
+	text-align: center;
+	font-size: 40px;
+	margin-top: 10px;
+}
+
+.content-timer {
+	text-align: center;
+	font-size: 60px;
+	margin-top: 40px;
+}
