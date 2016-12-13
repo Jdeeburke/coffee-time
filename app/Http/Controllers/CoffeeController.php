@@ -77,15 +77,15 @@ class CoffeeController extends BaseController
             $message = $request->input('text');
             $user = $request->input('user_name');
 
-            $response = "";
+            $text = "";
 
             if (Notification::create(['user' => $user, 'message' => $message])) {
-                $response = "Notification Added!";
+                $text = "Notification Added!";
             } else {
-                $response = "There was a problem adding that notification...";
+                $text = "There was a problem adding that notification...";
             }
 
-            return $response()->json(['text' => $response]);
+            return $response()->json(['text' => $text]);
         }
     }
 }
