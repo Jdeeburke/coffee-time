@@ -112,6 +112,7 @@ $(function()
 
 			if (parseInt(totalSeconds) < 0) {
 				window.clearInterval(interval);
+				sendNotification();
 				displayLatestCoffee(window.newBrewData);
 				window.brewing = false;
 				return;
@@ -137,5 +138,10 @@ $(function()
 		$(elem.top).fadeOut();
 		$(elem.bottom).fadeOut();
 		$(elem.timer).fadeOut();
+	}
+
+	function sendNotification()
+	{
+		$.ajax('/notify');
 	}
 });
